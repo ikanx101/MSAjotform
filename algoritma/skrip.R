@@ -112,6 +112,8 @@ df_final =
   mutate(area = "BALI IBT") %>% 
   relocate(area,.before = bulan)
 
+colnames(df_final) = proper_new(colnames(df_final))
+
 openxlsx::write.xlsx(df_final,file = "output.xlsx")
 
 
