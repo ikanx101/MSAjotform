@@ -16,7 +16,7 @@ files = list.files(path_folder,full.names = T)
 nama  = list.files(path_folder)
 
 # kita induksi dulu
-i         = 1
+i         = 2
 nama_file = files[i]
 
 # ambil file excel
@@ -47,6 +47,8 @@ proper_new = function(x){
 
 # ==========================================================
 # kita mulai
+# mulai paste dari sini
+
 df_final = 
   df %>% 
   rowwise() %>% 
@@ -71,8 +73,10 @@ df_final =
          nama_rumah_sakit_jika_belum_ada_hub_okky = stringr::str_trim(nama_rumah_sakit_jika_belum_ada_hub_okky)) %>% 
   rename(nama_outlet = nama_outlet_horeka_rumah_sakit_umkm_gym_atau_instansi,
          jabatan_pic_outlet = jabatan) %>% 
-  select(bulan,tahun,provinsi,kota_kab,dept,pic,jenis_kunjungan,nama_outlet,channel,category,
-         terdapat_sugar_display_condiment_bar_atau_sugar_bowl,outlet_approach_project_item_bulk,
+  select(bulan,tahun,provinsi,kota_kab,dept,pic,
+         jenis_kunjungan,nama_outlet,channel,category,
+         terdapat_sugar_display_condiment_bar_atau_sugar_bowl,
+         outlet_approach_project_item_bulk,
          termasuk_specialty_coffee_shop_roastery_terdapat_manual_brew_atau_banyak_kreasi_menu_kopi,
          google_rate,google_review,status_brand_tropicana_slim,status_brand_nutrisari,
          status_brand_hi_lo,status_brand_lokalate,status_brand_l_men,
