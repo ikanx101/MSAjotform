@@ -16,7 +16,7 @@ files = list.files(path_folder,full.names = T)
 nama  = list.files(path_folder)
 
 # kita induksi dulu
-i         = 2
+i         = 1
 nama_file = files[i]
 
 # ambil file excel
@@ -52,7 +52,8 @@ proper_new = function(x){
 df_final = 
   df %>% 
   rowwise() %>% 
-  mutate(tahun           = trans_tahun(submission_date),
+  mutate(tanggal_submisi = trans_submission_date(submission_date),
+         tahun           = trans_tahun(submission_date),
          bulan           = trans_bulan(submission_date)) %>% 
   ungroup() %>% 
   separate(provinsi_kota_kabupaten,
@@ -73,7 +74,7 @@ df_final =
          nama_rumah_sakit_jika_belum_ada_hub_okky = stringr::str_trim(nama_rumah_sakit_jika_belum_ada_hub_okky)) %>% 
   rename(nama_outlet = nama_outlet_horeka_rumah_sakit_umkm_gym_atau_instansi,
          jabatan_pic_outlet = jabatan) %>% 
-  select(bulan,tahun,provinsi,kota_kab,dept,pic,
+  select(tanggal_submisi,bulan,tahun,provinsi,kota_kab,dept,pic,
          jenis_kunjungan,nama_outlet,channel,category,
          terdapat_sugar_display_condiment_bar_atau_sugar_bowl,
          outlet_approach_project_item_bulk,
@@ -85,7 +86,7 @@ df_final =
 df_final = 
   df_final %>% 
   mutate(id = 1:nrow(df_final)) %>% 
-  relocate(id,.before = bulan) %>% 
+  relocate(id,.before = tanggal_submisi) %>% 
   separate_rows(penjualan,
                 sep = "\n") %>% 
   filter(!grepl("total",penjualan,ignore.case = T)) %>% 
@@ -114,10 +115,10 @@ df_final =
   )) %>% 
   ungroup() %>% 
   mutate(area = "BALI IBT") %>% 
-  relocate(area,.before = bulan)
+  relocate(area,.before = tanggal_submisi)
 
 colnames(df_final) = proper_new(colnames(df_final))
 
-openxlsx::write.xlsx(df_final,file = "output.xlsx")
+# openxlsx::write.xlsx(df_final,file = "output.xlsx")
 
 
