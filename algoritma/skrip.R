@@ -1,4 +1,4 @@
-setwd("~/MSA Jotform/algoritma")
+setwd("~/MSAjotform/algoritma")
 
 # bebersih global environment
 rm(list=ls())
@@ -9,14 +9,14 @@ library(tidyr)
 library(readxl)
 
 # memasukkan path folder
-path_folder = "~/MSA Jotform/input"
+path_folder = "~/MSAjotform/input"
 
 # ambil nama file
 files = list.files(path_folder,full.names = T)
 nama  = list.files(path_folder)
 
 # kita induksi dulu
-i         = 1
+i         = 2
 nama_file = files[i]
 
 # ambil file excel
