@@ -31,12 +31,14 @@ trans_submission_date = function(temp){
 
 trans_tahun = function(temp){
   temp = as.Date(temp,"%B %d, %Y")
-  format(temp,"%Y")
+  output = format(temp,"%Y")
+  as.numeric(output)
 }
 
 trans_bulan = function(temp){
   temp = as.Date(temp,"%B %d, %Y")
-  format(temp,"%m")
+  output = format(temp,"%m")
+  as.numeric(output)
 }
 
 # fungsi untuk bikin judul proper
@@ -74,28 +76,28 @@ df_final =
          nama_rumah_sakit_jika_belum_ada_hub_okky = stringr::str_trim(nama_rumah_sakit_jika_belum_ada_hub_okky)) %>% 
   rename(nama_outlet = nama_outlet_horeka_rumah_sakit_umkm_gym_atau_instansi,
          jabatan_pic_outlet = jabatan) %>% 
-  select(tanggal_submisi,bulan,tahun,provinsi,kota_kab,dept,pic,
+  select(tanggal_submisi,bulan,tahun,provinsi,kota_kab,dept,pic_nutrifood,
          jenis_kunjungan,nama_outlet,channel,category,
          terdapat_sugar_display_condiment_bar_atau_sugar_bowl,
          outlet_approach_project_item_bulk,
-         termasuk_specialty_coffee_shop_roastery_terdapat_manual_brew_atau_banyak_kreasi_menu_kopi,
+         termasuk_specialty_coffee_shop_roastery_atau_terdapat_manual_brew,
          google_rate,google_review,status_brand_tropicana_slim,status_brand_nutrisari,
          status_brand_hi_lo,status_brand_lokalate,status_brand_l_men,
-         jabatan_pic_outlet,nama_pic,penjualan,notes) 
+         jabatan_pic_outlet,nama_pic_outlet,penjualan,notes) 
 
 df_final = 
   df_final %>% 
-  mutate(id = 1:nrow(df_final)) %>% 
+  mutate(id = 1:nrow(df_final)) %>% .[162,] %>% 
   relocate(id,.before = tanggal_submisi) %>% 
   separate_rows(penjualan,
-                sep = "\n") %>% 
+                sep = "\n") %>%
   filter(!grepl("total",penjualan,ignore.case = T)) %>% 
   separate(penjualan,
            into = c("item","dummy"),
            sep = "\\(Amount:") %>% 
   separate(dummy,
            into = c("price","quantity"),
-           sep = "IDR, Jumlah:") %>% 
+           sep = "IDR, Quantity:") %>% 
   mutate(quantity = gsub("\\)","",quantity),
          item = stringr::str_trim(item),
          price = stringr::str_trim(price),
