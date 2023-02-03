@@ -16,7 +16,7 @@ files = list.files(path_folder,full.names = T)
 nama  = list.files(path_folder)
 
 # kita induksi dulu
-i         = 2
+i         = 1
 nama_file = files[i]
 
 # ambil file excel
@@ -87,7 +87,7 @@ df_final =
 
 df_final = 
   df_final %>% 
-  mutate(id = 1:nrow(df_final)) %>% .[162,] %>% 
+  mutate(id = 1:nrow(df_final)) %>%
   relocate(id,.before = tanggal_submisi) %>% 
   separate_rows(penjualan,
                 sep = "\n") %>%
@@ -121,6 +121,6 @@ df_final =
 
 colnames(df_final) = proper_new(colnames(df_final))
 
-# openxlsx::write.xlsx(df_final,file = "output.xlsx")
+openxlsx::write.xlsx(df_final,file = "output.xlsx")
 
 
