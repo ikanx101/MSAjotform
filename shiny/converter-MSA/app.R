@@ -87,7 +87,7 @@ readme = tabItem(tabName = 'readme',
                                 h5("Jika terjadi kendala atau pertanyaan, feel free to discuss ya: fadhli.mohammad@nutrifood.co.id"),
                                 br(),
                                 br(),
-                                h4(paste0("update 3 Februari 2023 14:06 WIB")),
+                                h4(paste0("update 6 Februari 2023 10:12 WIB")),
                                 h5("Copyright 2023"),
                                 h5("Dibuat menggunakan R")
                                )
@@ -221,10 +221,17 @@ server <- function(input,output,session){
     })
     
     data = data_upload
+    # nama kota disave dulu
+    kota <- reactive({
+      # kita ambil nama kota dulu
+      nama_kota_save = input$judul_area
+      return(nama_kota_save)
+    })
+    nama_kota_save = kota
     
     output$downloadData <- downloadHandler(
         filename = function() {
-            paste("MSA Jotform ", Sys.time(), ".xlsx", sep="")
+            paste("MSA Jotform ", nama_kota_save(),Sys.time(), ".xlsx", sep=" ")
         },
         content = function(file) {
             openxlsx::write.xlsx(data(), file)
