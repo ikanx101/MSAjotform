@@ -87,7 +87,7 @@ readme = tabItem(tabName = 'readme',
                                 h5("Jika terjadi kendala atau pertanyaan, feel free to discuss ya: fadhli.mohammad@nutrifood.co.id"),
                                 br(),
                                 br(),
-                                h4(paste0("update 6 Februari 2023 10:12 WIB")),
+                                h4(paste0("update 9 Februari 2023 10:32 WIB")),
                                 h5("Copyright 2023"),
                                 h5("Dibuat menggunakan R")
                                )
@@ -163,12 +163,14 @@ server <- function(input,output,session){
                    into = c("area_rumah_sakit",
                             "nama_rumah_sakit_jika_belum_ada_hub_okky"),
                    sep  = ";") %>% 
-          mutate(area_rumah_sakit = stringr::str_trim(area_rumah_sakit),
+          mutate(area_rumah_sakit                         = stringr::str_trim(area_rumah_sakit),
                  nama_rumah_sakit_jika_belum_ada_hub_okky = stringr::str_trim(nama_rumah_sakit_jika_belum_ada_hub_okky)) %>% 
-          rename(nama_outlet = nama_outlet_horeka_rumah_sakit_umkm_gym_atau_instansi,
-                 jabatan_pic_outlet = jabatan) %>% 
+          rename(nama_outlet        = nama_outlet_horeka_rumah_sakit_umkm_gym_atau_instansi,
+                 jabatan_pic_outlet = jabatan,
+                 nama_rumah_sakit   = nama_rumah_sakit_jika_belum_ada_hub_okky) %>% 
           select(tanggal_submisi,bulan,tahun,provinsi,kota_kab,dept,pic_nutrifood,
-                 jenis_kunjungan,nama_outlet,channel,category,
+                 jenis_kunjungan,area_rumah_sakit,nama_rumah_sakit,
+                 nama_outlet,channel,category,
                  terdapat_sugar_display_condiment_bar_atau_sugar_bowl,
                  outlet_approach_project_item_bulk,
                  termasuk_specialty_coffee_shop_roastery_atau_terdapat_manual_brew,

@@ -75,9 +75,11 @@ df_final =
   mutate(area_rumah_sakit = stringr::str_trim(area_rumah_sakit),
          nama_rumah_sakit_jika_belum_ada_hub_okky = stringr::str_trim(nama_rumah_sakit_jika_belum_ada_hub_okky)) %>% 
   rename(nama_outlet = nama_outlet_horeka_rumah_sakit_umkm_gym_atau_instansi,
-         jabatan_pic_outlet = jabatan) %>% 
+         jabatan_pic_outlet = jabatan,
+         nama_rumah_sakit = nama_rumah_sakit_jika_belum_ada_hub_okky) %>% 
   select(tanggal_submisi,bulan,tahun,provinsi,kota_kab,dept,pic_nutrifood,
-         jenis_kunjungan,nama_outlet,channel,category,
+         jenis_kunjungan,area_rumah_sakit,nama_rumah_sakit,
+         nama_outlet,channel,category,
          terdapat_sugar_display_condiment_bar_atau_sugar_bowl,
          outlet_approach_project_item_bulk,
          termasuk_specialty_coffee_shop_roastery_atau_terdapat_manual_brew,
