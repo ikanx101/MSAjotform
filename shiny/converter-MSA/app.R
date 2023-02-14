@@ -87,7 +87,7 @@ readme = tabItem(tabName = 'readme',
                                 h5("Jika terjadi kendala atau pertanyaan, feel free to discuss ya: fadhli.mohammad@nutrifood.co.id"),
                                 br(),
                                 br(),
-                                h4(paste0("update 9 Februari 2023 10:32 WIB")),
+                                h4(paste0("update 14 Februari 2023 14:16 WIB")),
                                 h5("Copyright 2023"),
                                 h5("Dibuat menggunakan R")
                                )
@@ -210,7 +210,7 @@ server <- function(input,output,session){
             grepl("hilo|hi lo",item,ignore.case = T) ~ "HILO"
           )) %>% 
           ungroup() %>% 
-          mutate(area = "BALI IBT") %>% 
+          mutate(area = nama_kota_save) %>% 
           relocate(area,.before = tanggal_submisi)
         
         # tahap terakhir adalah mengganti nama kolom agar proper
