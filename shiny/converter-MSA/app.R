@@ -146,8 +146,10 @@ server <- function(input,output,session){
           df %>% 
           rowwise() %>% 
           mutate(tanggal_submisi = trans_submission_date(submission_date),
+                 tanggal_visit   = trans_submission_date(date),
                  tahun           = trans_tahun(submission_date),
-                 bulan           = trans_bulan(submission_date)) %>% 
+                 bulan           = trans_bulan(submission_date),
+                 date            = NULL) %>% 
           ungroup() %>% 
           separate(provinsi_kota_kabupaten,
                    into = c("provinsi","kota_kab"),
@@ -168,7 +170,7 @@ server <- function(input,output,session){
           rename(nama_outlet        = nama_outlet_horeka_rumah_sakit_umkm_gym_atau_instansi,
                  jabatan_pic_outlet = jabatan,
                  nama_rumah_sakit   = nama_rumah_sakit_jika_belum_ada_hub_okky) %>% 
-          select(tanggal_submisi,bulan,tahun,provinsi,kota_kab,dept,pic_nutrifood,
+          select(tanggal_submisi,tanggal_visit,bulan,tahun,provinsi,kota_kab,dept,pic_nutrifood,
                  jenis_kunjungan,area_rumah_sakit,nama_rumah_sakit,
                  nama_outlet,channel,category,
                  terdapat_sugar_display_condiment_bar_atau_sugar_bowl,
