@@ -22,6 +22,20 @@ nama_file = files[i]
 # ambil file excel
 df = read_excel(nama_file) %>% janitor::clean_names()
 
+
+# ==========================================================
+# ambil file excel
+# nama_file = files[1]
+# df_1 = read_excel(nama_file) %>% janitor::clean_names()
+
+# nama_file = files[2]
+# df_2 = read_excel(nama_file) %>% janitor::clean_names()
+
+# setdiff(colnames(df_1),colnames(df_2))
+
+
+
+
 # ==========================================================
 # kita buat dulu beberapa function
 trans_submission_date = function(temp){
@@ -81,12 +95,15 @@ df_final =
          nama_rumah_sakit = nama_rumah_sakit_jika_belum_ada_hub_okky) %>% 
   select(tanggal_submisi,tanggal_visit,bulan,tahun,provinsi,kota_kab,dept,pic_nutrifood,
          jenis_kunjungan,area_rumah_sakit,nama_rumah_sakit,
-         nama_outlet,channel,category,
+         nama_outlet,project,channel,category,
          terdapat_sugar_display_condiment_bar_atau_sugar_bowl,
          outlet_approach_project_item_bulk,
          termasuk_specialty_coffee_shop_roastery_atau_terdapat_manual_brew,
+         terdapat_menu_minuman_selain_coffee_dengan_bahan_dasar_bubuk_seperti_green_tea_lemon_tea_chocolate,
+         rtd_potential,
          google_rate,google_review,status_brand_tropicana_slim,status_brand_nutrisari,
          status_brand_hi_lo,status_brand_lokalate,status_brand_l_men,
+         status_produk_ts_di_kamar_rawat_inap_rumah_sakit,
          jabatan_pic_outlet,nama_pic_outlet,penjualan,notes) 
 
 df_final = 
