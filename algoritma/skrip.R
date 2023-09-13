@@ -104,6 +104,7 @@ df_final =
          google_rate,google_review,status_brand_tropicana_slim,status_brand_nutrisari,
          status_brand_hi_lo,status_brand_lokalate,status_brand_l_men,
          status_produk_ts_di_kamar_rawat_inap_rumah_sakit,
+         status_sample_ahli_gizi_rs,
          jabatan_pic_outlet,nama_pic_outlet,penjualan,notes) 
 
 df_final = 

@@ -87,7 +87,7 @@ readme = tabItem(tabName = 'readme',
                                 h5("Jika terjadi kendala atau pertanyaan, feel free to discuss ya: fadhli.mohammad@nutrifood.co.id"),
                                 br(),
                                 br(),
-                                h4(paste0("update 14 Februari 2023 14:16 WIB")),
+                                h4(paste0("update 13 September 2023 08:16 WIB")),
                                 h5("Copyright 2023"),
                                 h5("Dibuat menggunakan R")
                                )
@@ -181,6 +181,7 @@ server <- function(input,output,session){
                  google_rate,google_review,status_brand_tropicana_slim,status_brand_nutrisari,
                  status_brand_hi_lo,status_brand_lokalate,status_brand_l_men,
                  status_produk_ts_di_kamar_rawat_inap_rumah_sakit,
+                 status_sample_ahli_gizi_rs,
                  jabatan_pic_outlet,nama_pic_outlet,penjualan,notes) 
         
         # tahap ketiga adalah membuat baris ke bawah setiap ada penjualan
