@@ -16,7 +16,7 @@ files = list.files(path_folder,full.names = T)
 nama  = list.files(path_folder)
 
 # kita induksi dulu
-i         = 1
+i         = 2
 nama_file = files[i]
 
 # ambil file excel
@@ -92,20 +92,20 @@ df_final =
          nama_rumah_sakit_jika_belum_ada_hub_okky = stringr::str_trim(nama_rumah_sakit_jika_belum_ada_hub_okky)) %>% 
   rename(nama_outlet = nama_outlet_horeka_rumah_sakit_umkm_gym_atau_instansi,
          jabatan_pic_outlet = jabatan,
-         nama_rumah_sakit = nama_rumah_sakit_jika_belum_ada_hub_okky) %>% 
-  select(tanggal_submisi,tanggal_visit,bulan,tahun,provinsi,kota_kab,dept,pic_nutrifood,
-         jenis_kunjungan,area_rumah_sakit,nama_rumah_sakit,
-         nama_outlet,project,channel,category,
-         terdapat_sugar_display_condiment_bar_atau_sugar_bowl,
-         outlet_approach_project_item_bulk,
-         termasuk_specialty_coffee_shop_roastery_atau_terdapat_manual_brew,
-         terdapat_menu_minuman_selain_coffee_dengan_bahan_dasar_bubuk_seperti_green_tea_lemon_tea_chocolate,
-         rtd_potential,
-         google_rate,google_review,status_brand_tropicana_slim,status_brand_nutrisari,
-         status_brand_hi_lo,status_brand_lokalate,status_brand_l_men,
-         status_produk_ts_di_kamar_rawat_inap_rumah_sakit,
-         status_sample_ahli_gizi_rs,
-         jabatan_pic_outlet,nama_pic_outlet,penjualan,notes) 
+         nama_rumah_sakit = nama_rumah_sakit_jika_belum_ada_hub_okky) 
+  # select(tanggal_submisi,tanggal_visit,bulan,tahun,provinsi,kota_kab,dept,pic_nutrifood,
+  #        jenis_kunjungan,area_rumah_sakit,nama_rumah_sakit,
+  #        nama_outlet,project,channel,category,
+  #        terdapat_sugar_display_condiment_bar_atau_sugar_bowl,
+  #        outlet_approach_project_item_bulk,
+  #        termasuk_specialty_coffee_shop_roastery_atau_terdapat_manual_brew,
+  #        terdapat_menu_minuman_selain_coffee_dengan_bahan_dasar_bubuk_seperti_green_tea_lemon_tea_chocolate,
+  #        rtd_potential,
+  #        google_rate,google_review,status_brand_tropicana_slim,status_brand_nutrisari,
+  #        status_brand_hi_lo,status_brand_lokalate,status_brand_l_men,
+  #        status_produk_ts_di_kamar_rawat_inap_rumah_sakit,
+  #        status_sample_ahli_gizi_rs,
+  #        jabatan_pic_outlet,nama_pic_outlet,penjualan,notes) 
 
 df_final = 
   df_final %>% 
