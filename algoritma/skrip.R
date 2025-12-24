@@ -70,8 +70,8 @@ df_final =
   rowwise() %>% 
   mutate(tanggal_submisi = trans_submission_date(submission_date),
          tanggal_visit   = trans_submission_date(date),
-         tahun           = trans_tahun(submission_date),
-         bulan           = trans_bulan(submission_date),
+         tahun           = trans_tahun(date),
+         bulan           = trans_bulan(date),
          date            = NULL) %>% 
   ungroup() %>% 
   separate(provinsi_kota_kabupaten,
