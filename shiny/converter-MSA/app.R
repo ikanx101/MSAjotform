@@ -24,8 +24,8 @@ rm(list=ls())
 
 # buat credential
 credentials = data.frame(
-    user             = c("msa", "ikanx_server"), # mandatory
-    password         = c("nutrifood", "ahnaf"),  # mandatory
+    user             = c("msa", "a"), # mandatory
+    password         = c("nutrifood", "a"),  # mandatory
     admin            = c(TRUE, TRUE),
     stringsAsFactors = FALSE
 )
