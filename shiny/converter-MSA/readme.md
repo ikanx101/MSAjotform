@@ -23,5 +23,5 @@ sudo docker push ikanx101/shiny-msa:latest
 ## how to run
 
 ```
-docker run -p 3838:3838 ikanx101/shiny-msa
+docker run -p 3131:3838 --name msa_converter --restart unless-stopped ikanx101/shiny-msa:latest
 ```
