@@ -16,7 +16,7 @@ files = list.files(path_folder,full.names = T)
 nama  = list.files(path_folder)
 
 # kita induksi dulu
-i         = 2
+i         = 1
 nama_file = files[i]
 
 # ambil file excel
