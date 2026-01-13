@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 # Install R packages
 RUN Rscript -e "install.packages(c('dplyr','reshape2','readxl','tidyr'))"
 RUN Rscript -e "install.packages(c('openxlsx','shinydashboard','tidytext'))"
-RUN Rscript -e "install.packages(c('shiny','shinymanager'))"
+RUN Rscript -e "install.packages(c('shiny','shinymanager','stringi','janitor','stringr'))"
 
 # Copy aplikasi
 COPY app.R /srv/shiny-server/
