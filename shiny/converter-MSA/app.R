@@ -87,7 +87,7 @@ readme = tabItem(tabName = 'readme',
                                 h5("Jika terjadi kendala atau pertanyaan, feel free to discuss ya: fadhli.mohammad@nutrifood.co.id"),
                                 br(),
                                 br(),
-                                h4(paste0("update 24 Desember 2025 10:31 WIB")),
+                                h4(paste0("update 13 Januari 2026 14:05 WIB")),
                                 h5("Copyright 2023"),
                                 h5("Dibuat menggunakan R")
                                )
