@@ -45,12 +45,14 @@ source("fungsi_tanggal.R")
 
 # transform ke bentuk tahun
 trans_tahun = function(temp){
-  output = lubridate::year(temp)
+  temp = as.Date(temp,"%d/%m/%Y")
+  output = format(temp,"%Y")
   as.numeric(output)
 }
 # transform ke bentuk bulan
 trans_bulan = function(temp){
-  output = lubridate::month(temp)
+  temp = as.Date(temp,"%d/%m/%Y")
+  output = format(temp,"%m")
   as.numeric(output)
 }
 # fungsi untuk bikin judul proper
@@ -148,9 +150,9 @@ server <- function(input,output,session){
           df %>% 
           rowwise() %>% 
           mutate(tanggal_submisi = konversi_tanggal(submission_date),
-                 tanggal_visit   = konversi_tanggal(date),
-                 tahun           = trans_tahun(tanggal_visit),
-                 bulan           = trans_bulan(tanggal_visit),
+                 tanggal_visit   = konversi_tanggal(submission_date),
+                 tahun           = trans_tahun(tanggal_submisi),
+                 bulan           = trans_bulan(tanggal_submisi),
                  date            = NULL) %>% 
           ungroup() %>% 
           separate(provinsi_kota_kabupaten,
