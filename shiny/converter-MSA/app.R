@@ -45,13 +45,13 @@ source("fungsi_tanggal.R")
 
 # transform ke bentuk tahun
 trans_tahun = function(temp){
-  temp = as.Date(temp,"%d/%m/%Y")
+  temp = as.Date(temp,"%Y-%d-%m")
   output = format(temp,"%Y")
   as.numeric(output)
 }
 # transform ke bentuk bulan
 trans_bulan = function(temp){
-  temp = as.Date(temp,"%d/%m/%Y")
+  temp = as.Date(temp,"%Y-%d-%m")
   output = format(temp,"%m")
   as.numeric(output)
 }
