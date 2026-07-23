@@ -35,10 +35,14 @@ credentials = data.frame(
 # kita buat dulu beberapa function
 
 # transform submission date
-trans_submission_date = function(temp){
-  temp = as.Date(temp,"%B %d, %Y")
-  format(temp,"%d-%m-%Y")
-}
+source("fungsi_tanggal.R")
+# per 23 juli digantikan dengan konversi_tanggal
+
+# trans_submission_date = function(temp){
+#   temp = as.Date(temp,"%B %d, %Y")
+#   format(temp,"%d-%m-%Y")
+# }
+
 # transform ke bentuk tahun
 trans_tahun = function(temp){
   temp = as.Date(temp,"%B %d, %Y")
@@ -62,7 +66,7 @@ proper_new = function(x){
 # USER INTERFACE PART
 
 # header
-header = dashboardHeader(title = "Jotform Converter MSA ver1.0",
+header = dashboardHeader(title = "Jotform Converter MSA ver1.2",
                          titleWidth = 300)
 
 # sidebar menu
@@ -87,8 +91,8 @@ readme = tabItem(tabName = 'readme',
                                 h5("Jika terjadi kendala atau pertanyaan, feel free to discuss ya: fadhli.mohammad@nutrifood.co.id"),
                                 br(),
                                 br(),
-                                h4(paste0("update 13 Januari 2026 14:05 WIB")),
-                                h5("Copyright 2023"),
+                                h4(paste0("update 23 Juli 2026 20:46 WIB")),
+                                h5("Copyright 2026"),
                                 h5("Dibuat menggunakan R")
                                )
                           )
@@ -145,8 +149,8 @@ server <- function(input,output,session){
         df_final = 
           df %>% 
           rowwise() %>% 
-          mutate(tanggal_submisi = trans_submission_date(submission_date),
-                 tanggal_visit   = trans_submission_date(date),
+          mutate(tanggal_submisi = konversi_tanggal(submission_date),
+                 tanggal_visit   = konversi_tanggal(date),
                  tahun           = trans_tahun(date),
                  bulan           = trans_bulan(date),
                  date            = NULL) %>% 

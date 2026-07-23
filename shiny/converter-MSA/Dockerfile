@@ -15,12 +15,13 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install R packages
-RUN Rscript -e "install.packages(c('dplyr','reshape2','readxl','tidyr'))"
+RUN Rscript -e "install.packages(c('dplyr','reshape2','readxl','tidyr','lubridate'))"
 RUN Rscript -e "install.packages(c('openxlsx','shinydashboard','tidytext'))"
 RUN Rscript -e "install.packages(c('shiny','shinymanager','stringi','janitor','stringr'))"
 
 # Copy aplikasi
 COPY app.R /srv/shiny-server/
+COPY fungsi_tanggal.R /srv/shiny-server/fungsi_tanggal.R
 
 # Buat folder log
 RUN mkdir -p /var/log/shiny-server
