@@ -1,179 +1,156 @@
-#' Konversi Tanggal Berbahasa Indonesia ke Object Date
+#' Konversi Tanggal Bahasa Indonesia ke Object Date R
 #'
-#' Fungsi ini mengkonversi string tanggal yang ditulis dalam Bahasa Indonesia
-#' menjadi object Date di R. Mendukung berbagai format penulisan seperti:
-#' - "1 Januari 2024"
-#' - "01-Jan-2024"
-#' - "Senin, 1 Januari 2024"
-#' - "2024-01-01" (format standar)
-#' - "01/01/2024"
-#' dan variasi lainnya.
+#' Fungsi ini mengkonversi berbagai format tanggal, termasuk yang ditulis 
+#' dalam bahasa Indonesia, menjadi object Date di R dengan format "%d-%m-%Y".
 #'
-#' @param x Character vector berisi tanggal dalam Bahasa Indonesia.
-#' @param tz Timezone, default "Asia/Jakarta".
-#' @param locale Locale Indonesia. Default "id_ID.UTF-8".
+#' @param x Character vector berisi tanggal yang akan dikonversi.
+#' @param locale Locale yang digunakan untuk parsing. Default "id_ID.utf8" 
+#'   untuk bahasa Indonesia. Jika tidak bekerja di sistem Anda, gunakan 
+#'   alternatif seperti "id_ID" atau "Indonesian_Indonesia".
 #'
-#' @return Vector of class Date.
+#' @return Date vector dengan format "%d-%m-%Y".
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#'   konversi_tanggal("1 Januari 2024")
-#'   konversi_tanggal("Senin, 1 Januari 2024")
-#'   konversi_tanggal(c("1 Januari 2024", "15 Maret 2025"))
-#' }
+#' # Contoh dengan nama bulan bahasa Indonesia
+#' konversi_tanggal("15 Januari 2023")
+#' konversi_tanggal("3 Maret 2021")
+#' konversi_tanggal(c("1 Januari 2020", "2 Februari 2021"))
 #'
-konversi_tanggal <- function(x, tz = "Asia/Jakarta", locale = "id_ID.UTF-8") {
+#' # Contoh dengan singkatan bulan bahasa Indonesia
+#' konversi_tanggal("15-Jan-2023")
+#' konversi_tanggal("15 Jan 2023")
+#'
+#' # Contoh format lain yang umum
+#' konversi_tanggal("2023-01-15")
+#' konversi_tanggal("15/01/2023")
+#' konversi_tanggal("01-15-2023")
+#'
+#' # Format Inggris tetap bisa diproses
+#' konversi_tanggal("January 15, 2023")
+#' konversi_tanggal("15 Jan 2023")
+konversi_tanggal <- function(x) {
 
-  # Cek lubridate
-  if (!requireNamespace("lubridate", quietly = TRUE)) {
-    stop("Package 'lubridate' diperlukan. Install dengan: install.packages('lubridate')")
+  # ---------------------------------------------------------------------------
+  # 1. Validasi input
+  # ---------------------------------------------------------------------------
+  if (!is.character(x)) {
+    stop("Input `x` harus berupa character vector.", call. = FALSE)
   }
 
-  # Mapping nama bulan Indonesia (panjang) -> angka
+  # ---------------------------------------------------------------------------
+  # 2. Siapkan mapping nama bulan bahasa Indonesia -> Inggris
+  # ---------------------------------------------------------------------------
   bulan_indonesia <- c(
-    "Januari"   = "01", "Februari"  = "02", "Maret"     = "03",
-    "April"     = "04", "Mei"       = "05", "Juni"      = "06",
-    "Juli"      = "07", "Agustus"   = "08", "September" = "09",
-    "Oktober"   = "10", "November"  = "11", "Desember"  = "12"
+    "Januari"   = "January",
+    "Februari"  = "February",
+    "Maret"     = "March",
+    "April"     = "April",
+    "Mei"       = "May",
+    "Juni"      = "June",
+    "Juli"      = "July",
+    "Agustus"   = "August",
+    "September" = "September",
+    "Oktober"   = "October",
+    "November"  = "November",
+    "Desember"  = "December"
   )
 
-  # Mapping nama bulan Indonesia (singkat) -> angka
-  bulan_indonesia_singkat <- c(
-    "Jan" = "01", "Feb" = "02", "Mar" = "03", "Apr" = "04",
-    "Mei" = "05", "Jun" = "06", "Jul" = "07", "Agu" = "08",
-    "Agt" = "08", "Sep" = "09", "Okt" = "10", "Nov" = "11",
-    "Des" = "12"
+  # Juga untuk singkatan 3-huruf (kasus tidak sensitif)
+  singkatan_indonesia <- c(
+    "Jan" = "Jan",
+    "Feb" = "Feb",
+    "Mar" = "Mar",
+    "Apr" = "Apr",
+    "Mei" = "May",
+    "Jun" = "Jun",
+    "Jul" = "Jul",
+    "Agu" = "Aug",
+    "Sep" = "Sep",
+    "Okt" = "Oct",
+    "Nov" = "Nov",
+    "Des" = "Dec"
   )
 
-  # Nama hari Indonesia (untuk dibersihkan)
-  hari_indonesia <- c(
-    "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"
-  )
+  # ---------------------------------------------------------------------------
+  # 3. Bersihkan dan standarisasi teks tanggal
+  # ---------------------------------------------------------------------------
+  bersihkan <- function(txt) {
+    txt <- trimws(txt)
 
-  # --- Helper functions ---
-
-  # Ganti nama bulan Indonesia dengan angka
-  ganti_bulan <- function(txt) {
-    for (nm in names(bulan_indonesia)) {
-      pattern <- sprintf("\\b%s\\b", nm)
-      txt <- gsub(pattern, bulan_indonesia[nm], txt, ignore.case = TRUE)
+    # Ganti nama bulan panjang bahasa Indonesia -> Inggris
+    for (i in seq_along(bulan_indonesia)) {
+      pola    <- names(bulan_indonesia)[i]
+      ganti   <- unname(bulan_indonesia[i])
+      txt     <- gsub(pola, ganti, txt, ignore.case = TRUE)
     }
-    for (nm in names(bulan_indonesia_singkat)) {
-      pattern <- sprintf("\\b%s\\b", nm)
-      txt <- gsub(pattern, bulan_indonesia_singkat[nm], txt, ignore.case = TRUE)
+
+    # Ganti singkatan bulan bahasa Indonesia -> Inggris
+    for (i in seq_along(singkatan_indonesia)) {
+      pola    <- names(singkatan_indonesia)[i]
+      ganti   <- unname(singkatan_indonesia[i])
+      # Hanya ganti jika diapit oleh word boundary (agar "Agus" tidak kena)
+      txt     <- gsub(paste0("\\b", pola, "\\b"), ganti, txt, ignore.case = TRUE)
     }
+
     return(txt)
   }
 
-  # Hapus nama hari dan koma
-  bersihkan_hari <- function(txt) {
-    pattern_hari <- paste0(
-      "\\b(", paste(hari_indonesia, collapse = "|"), "\\b),?\\s*"
+  x_bersih <- bersihkan(x)
+
+  # ---------------------------------------------------------------------------
+  # 4. Coba parse dengan berbagai format umum
+  # ---------------------------------------------------------------------------
+  # Kumpulan format yang umum dijumpai
+  format_umum <- c(
+    "d B Y",        # 15 January 2023
+    "d b Y",        # 15 Jan 2023
+    "B d, Y",       # January 15, 2023
+    "b d, Y",       # Jan 15, 2023
+    "Y-m-d",        # 2023-01-15
+    "d/m/Y",        # 15/01/2023
+    "m/d/Y",        # 01/15/2023
+    "d-%m-%Y",      # 15-01-2023
+    "d %m %Y",      # 15 01 2023
+    "Y%m%d",        # 20230115
+    "d%B%Y",        # 15January2023
+    "d %B %Y",      # 15 January 2023
+    "Y.%m.%d",      # 2023.01.15
+    "d.%m.%Y"       # 15.01.2023
+  )
+
+  hasil <- lubridate::parse_date_time(x_bersih, orders = format_umum, quiet = TRUE)
+
+  # ---------------------------------------------------------------------------
+  # 5. Jika masih gagal, fallback: coba tanpa locale tertentu
+  # ---------------------------------------------------------------------------
+  if (all(is.na(hasil))) {
+    hasil <- lubridate::parse_date_time(x_bersih, orders = format_umum, quiet = TRUE)
+  }
+
+  # ---------------------------------------------------------------------------
+  # 6. Jika masih NA semua, beri peringatan
+  # ---------------------------------------------------------------------------
+  if (all(is.na(hasil))) {
+    warning(
+      "Semua tanggal gagal diparsing. Periksa format input atau coba atur ",
+      "parameter `locale` secara manual (misal locale = 'C').",
+      call. = FALSE
     )
-    txt <- gsub(pattern_hari, "", txt, ignore.case = TRUE, perl = TRUE)
-    txt <- gsub("\\s*,\\s*", " ", txt)
-    return(trimws(txt))
+  } else if (any(is.na(hasil))) {
+    idx_na <- which(is.na(hasil))
+    warning(
+      sprintf("%d dari %d tanggal gagal diparsing.", length(idx_na), length(x)),
+      call. = FALSE
+    )
   }
 
-  # Parsing manual sebagai fallback
-  parse_manual <- function(txt) {
-    parts <- strsplit(txt, "-")[[1]]
-    if (length(parts) != 3) return(NA)
-    if (!all(grepl("^[0-9]+$", parts))) return(NA)
+  # ---------------------------------------------------------------------------
+  # 7. Format output sesuai permintaan: %d-%m-%Y
+  # ---------------------------------------------------------------------------
+  hasil <- format(hasil, "%d-%m-%Y")
+  hasil <- as.Date(hasil, format = "%d-%m-%Y")
 
-    p1 <- as.numeric(parts[1])
-    p2 <- as.numeric(parts[2])
-    p3 <- as.numeric(parts[3])
-
-    # Deteksi urutan: bagian mana yang tahun?
-    if (p3 > 31) {
-      # Format: dd-mm-yyyy (Indonesia)
-      hari <- p1; bulan <- p2; tahun <- p3
-    } else if (p1 > 31) {
-      # Format: yyyy-mm-dd
-      tahun <- p1; bulan <- p2; hari <- p3
-    } else {
-      # Default Indonesia: dmy
-      hari <- p1; bulan <- p2; tahun <- p3
-    }
-
-    # Handle 2-digit year
-    if (tahun < 100) {
-      tahun <- ifelse(tahun > 30, 1900 + tahun, 2000 + tahun)
-    }
-
-    # Validasi rentang
-    if (hari >= 1 && hari <= 31 && bulan >= 1 && bulan <= 12 && tahun >= 1900) {
-      tanggal_str <- sprintf("%04d-%02d-%02d", tahun, bulan, hari)
-      return(tryCatch(as.Date(tanggal_str), error = function(e) NA))
-    }
-
-    return(NA)
-  }
-
-  # --- Main processing ---
-
-  # Step 1: Bersihkan nama hari
-  x_clean <- bersihkan_hari(x)
-
-  # Step 2: Ganti nama bulan Indonesia dengan angka
-  x_numeric <- ganti_bulan(x_clean)
-
-  # Step 3: Standarisasi separator
-  x_std <- gsub("[/\\s\\.]+", "-", x_numeric)
-  x_std <- gsub("-+", "-", x_std)
-  x_std <- trimws(x_std)
-
-  # Step 4: Parsing
-  result <- rep(as.Date(NA), length(x))
-
-  for (i in seq_along(x_std)) {
-    if (is.na(x_std[i]) || x_std[i] == "" || x_std[i] == "-") {
-      next
-    }
-
-    tanggal_conv <- NA
-
-    # Coba pakai parse_date_time dari lubridate
-    tryCatch({
-      orders <- c("dmy", "ymd", "mdy", "Ymd", "dmY")
-      parsed <- lubridate::parse_date_time(
-        x_std[i],
-        orders = orders,
-        tz = tz,
-        locale = locale,
-        quiet = TRUE
-      )
-      if (!is.na(parsed)) {
-        tanggal_conv <- as.Date(parsed)
-      }
-    }, error = function(e) {})
-    
-    # Coba parse_date_time dengan locale "C" sebagai fallback
-    if (is.na(tanggal_conv)) {
-      tryCatch({
-        parsed <- lubridate::parse_date_time(
-          x_std[i],
-          orders = c("dmy", "ymd", "mdy"),
-          tz = tz,
-          locale = "C",
-          quiet = TRUE
-        )
-        if (!is.na(parsed)) {
-          tanggal_conv <- as.Date(parsed)
-        }
-      }, error = function(e) {})
-    }
-
-    # Fallback: parsing manual
-    if (is.na(tanggal_conv)) {
-      tanggal_conv <- parse_manual(x_std[i])
-    }
-
-    result[i] <- tanggal_conv
-  }
-
-  return(result)
+  return(hasil)
 }
 

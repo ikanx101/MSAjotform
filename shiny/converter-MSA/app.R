@@ -45,16 +45,17 @@ source("fungsi_tanggal.R")
 
 # transform ke bentuk tahun
 trans_tahun = function(temp){
-  temp = as.Date(temp,"%Y-%d-%m")
+  temp = as.Date(temp,"%d-%m-%Y")
   output = format(temp,"%Y")
   as.numeric(output)
 }
 # transform ke bentuk bulan
 trans_bulan = function(temp){
-  temp = as.Date(temp,"%Y-%d-%m")
+  temp = as.Date(temp,"%d-%m-%Y")
   output = format(temp,"%m")
   as.numeric(output)
 }
+
 # fungsi untuk bikin judul proper
 proper_new = function(x){
   tess = stringi::stri_trans_general(x,id = "Title")
@@ -66,7 +67,7 @@ proper_new = function(x){
 # USER INTERFACE PART
 
 # header
-header = dashboardHeader(title = "Jotform Converter MSA ver1.2",
+header = dashboardHeader(title = "Jotform Converter MSA ver1.3",
                          titleWidth = 300)
 
 # sidebar menu
@@ -91,7 +92,7 @@ readme = tabItem(tabName = 'readme',
                                 h5("Jika terjadi kendala atau pertanyaan, feel free to discuss ya: fadhli.mohammad@nutrifood.co.id"),
                                 br(),
                                 br(),
-                                h4(paste0("update 23 Juli 2026 20:46 WIB")),
+                                h4(paste0("update 23 Juli 2026 21:29 WIB")),
                                 h5("Copyright 2026"),
                                 h5("Dibuat menggunakan R")
                                )
